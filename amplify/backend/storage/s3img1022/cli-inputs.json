@@ -1,0 +1,14 @@
+{
+  "resourceName": "s3img1022",
+  "policyUUID": "91b980cf",
+  "bucketName": "aiddia-image-gallery-dev-1022",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
