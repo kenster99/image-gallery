@@ -8,15 +8,36 @@ import { DataGrid } from '@mui/x-data-grid';
 import { AmplifyS3Image } from '@aws-amplify/ui-react/legacy';
 import './Catalog.css';
 import Actions from '../components/Actions';
+import { onCreateImage } from '../graphql/subscriptions';
 
 const Catalog = () => {
     const [images, setImages] = useState([])
     const [rowId, setRowId] = useState(null)
+    const [image, setImage] = useState()
+
+
+    let subOnCreate;
 
     useEffect( () => {
         fetchData();      
-    },[]);
+    },[image]);
     
+    useEffect( () => {
+        setupSubscriptions();
+        return () => {
+            subOnCreate.unsubscribe();
+        }
+    })
+
+
+    function setupSubscriptions() {
+        subOnCreate = API.graphql(graphqlOperation(onCreateImage)).subscribe({
+            next: (imagesData) => {
+                setImage(imagesData)
+            }
+        })
+    }
+
     async function fetchData() {
         const apiData = await API.graphql(graphqlOperation(listImages));
         const imageData = apiData.data.listImages.items;
