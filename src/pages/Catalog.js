@@ -7,30 +7,32 @@ import { Box } from '@mui/system';
 import { DataGrid } from '@mui/x-data-grid';
 
 const Catalog = () => {
-    const [images, setImages] = useState(null)
+    const [images, setImages] = useState([])
     const [rowId, setRowId] = useState(null)
 
     useEffect( () => {
-        async function fetchData() {
-            const imageData = await API.graphql(graphqlOperation(listImages));
-            setImages(imageData.data.listImages.items);
-            console.log("== images == ")
-            console.log(images)
-        };
-        fetchData();
-    }, [images]);
-
-
+        fetchData();      
+    },[]);
+    
+    async function fetchData() {
+        const apiData = await API.graphql(graphqlOperation(listImages));
+        const imageData = apiData.data.listImages.items;
+        setImages(imageData);
+    };
+ 
+    console.log("== images == ")
+    console.log(images)   
     const columns = [
-        { field: "url", headerName: "", height: "500px", sortable: false, filterable: false, 
-            renderCell: (params) => {
-                return (
-                    <>
-                        <img src={params.value} alt="{image.id}" height="100%" width="100%"  />
-                    </>
-                )
-            } 
-        },
+        // { field: "url", headerName: "", height: "500px", sortable: false, filterable: false, 
+        //     renderCell: (params) => {
+        //         return (
+        //             <>
+        //                 <img src={params.value} alt={item.file.key} height="100%" width="100%"  />
+        //             </>
+        //         )
+        //     } 
+        // },
+        { field: "url", headerName: "URL", flex: 1},        
         { field: "id", headerName: "ID", flex: 1},
         { field: "created", headerName: "Created", flex: 1},
         // { field: "action", headerName: "Action", type: "actions", 
@@ -42,12 +44,13 @@ const Catalog = () => {
     //     // return URL.createObjectURL(fileBlob)
     //     return fileBlob
     // }
-    // const rows = images.map(image => ({
-    //     id: image.id,
-    //     url: image.file.key,
-    //     created: image.createdAt
-    // }))
-
+    const rows = images.map(image => ({
+        id: image.id,
+        url: image.file.key,
+        created: image.createdAt
+    }))
+    console.log("== rows == ")
+    console.log(rows)  
   return (
     <>
     <Topbar />
