@@ -8,15 +8,18 @@ import Amplify from 'aws-amplify';
 import awsExports from './aws-exports';
 import { Link } from 'react-router-dom';
 import { Routes, Route} from 'react-router-dom';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import Catalog from './pages/Catalog';
 
 Amplify.configure(awsExports)
 
-function App({ signOut, user }) {
+function App() {
 
+  const { user, signOut } = useAuthenticator((context) => [context.user]);
   return <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/uploadImage" element={<UploadImage />} />
-
+    <Route path="/catalog" element={<Catalog />} />
   </Routes>
 
   // return (
