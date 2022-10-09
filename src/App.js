@@ -2,7 +2,6 @@ import logo from './logo.svg';
 import './App.css';
 import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import UploadImage from './pages/UploadImage';
 import Home from './pages/Home';
 import Amplify from 'aws-amplify';
 import awsExports from './aws-exports';
@@ -18,7 +17,7 @@ function App() {
   const { user, signOut } = useAuthenticator((context) => [context.user]);
   return <Routes>
     <Route path="/" element={<Home />} />
-    <Route path="/uploadImage" element={<UploadImage />} />
+    {/* <Route path="/uploadImage" element={<UploadImage />} /> */}
     <Route path="/catalog" element={<Catalog />} />
   </Routes>
 

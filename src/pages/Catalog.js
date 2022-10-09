@@ -15,28 +15,26 @@ const Catalog = () => {
     const [rowId, setRowId] = useState(null)
     const [image, setImage] = useState()
 
-
     let subOnCreate;
 
     useEffect( () => {
         fetchData();      
     },[image]);
     
-    useEffect( () => {
-        setupSubscriptions();
-        return () => {
-            subOnCreate.unsubscribe();
-        }
-    })
+    // useEffect( () => {
+    //     setupSubscriptions();
+    //     return () => {
+    //         subOnCreate.unsubscribe();
+    //     }
+    // })
 
-
-    function setupSubscriptions() {
-        subOnCreate = API.graphql(graphqlOperation(onCreateImage)).subscribe({
-            next: (imagesData) => {
-                setImage(imagesData)
-            }
-        })
-    }
+    // function setupSubscriptions() {
+    //     subOnCreate = API.graphql(graphqlOperation(onCreateImage)).subscribe({
+    //         next: (imagesData) => {
+    //             setImage(imagesData)
+    //         }
+    //     })
+    // }
 
     async function fetchData() {
         const apiData = await API.graphql(graphqlOperation(listImages));
@@ -44,8 +42,8 @@ const Catalog = () => {
         setImages(imageData);
     };
  
-    console.log("== images == ")
-    console.log(images)   
+    // console.log("== images == ")
+    // console.log(images)   
     const columns = [
         { field: "url", headerName: "", sortable: false, filterable: false, 
             renderCell: (params) => {
@@ -77,8 +75,8 @@ const Catalog = () => {
         created: image.createdAt
     }))
 
-    console.log("== rows == ")
-    console.log(rows)  
+    // console.log("== rows == ")
+    // console.log(rows)  
   return (
     <>
     <Topbar />

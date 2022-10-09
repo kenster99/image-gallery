@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import './UploadImage.css';
 
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 import { createImage } from '../graphql/mutations';
 import awsmobile from "../aws-exports"
-import Topbar from '../components/Topbar'
+import Topbar from './Topbar'
 
 const UploadImage = (props) => {
     const [fileUrl, setFileUrl] = useState(null)
@@ -43,14 +42,13 @@ const UploadImage = (props) => {
 
     return (
         <div className="UploadImage">
-            <Topbar />
             <div>
                 <p>Select an image to upload</p>
                 <input type="file" onChange={onChange} />
             </div>
-            <div>
+            {/* <div>
                 <img src={fileUrl} alt=""/>
-            </div>
+            </div> */}
         </div>
     )
 
