@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { Routes, Route} from 'react-router-dom';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import Catalog from './pages/Catalog';
+import ImageDetail from './pages/ImageDetail';
 
 Amplify.configure(awsExports)
 
@@ -19,6 +20,7 @@ function App() {
     <Route path="/" element={<Home />} />
     {/* <Route path="/uploadImage" element={<UploadImage />} /> */}
     <Route path="/catalog" element={<Catalog />} />
+    <Route path="/image/:id" element={<ImageDetail />} />
   </Routes>
 
   // return (

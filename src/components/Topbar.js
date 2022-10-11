@@ -1,18 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { Typography, Toolbar, Box, Button } from '@mui/material';
+import { Typography, Toolbar, Box } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import Modal from '@mui/material/Modal';
 import UploadImage from './UploadImage';
+import UploadDialog from './UploadDialog';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Storage, API, graphqlOperation } from 'aws-amplify';
+import { createImage } from '../graphql/mutations';
+import awsmobile from "../aws-exports"
 
 const Topbar = () => {
   const { user, signOut } = useAuthenticator((context) => [context.user]);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false)
+
+  async function addImageToDB (image) {
+      console.log('add image to DB')
+      try {
+          await API.graphql(graphqlOperation(createImage, {input: image}));
+      } catch (error) {
+          console.log(error)
+      }
+  }
+
+  function onChange(e) {
+      const file = e.target.files[0];
+      console.log(file);
+
+      Storage.put(file.name, file, {
+          contentType: file.type
+      }).then (() => {
+          // setFileUrl(URL.createObjectURL(file))
+          const image = {
+              name: file.name,
+              file: {
+                  bucket: awsmobile.aws_user_files_s3_bucket,
+                  region: awsmobile.aws_user_files_s3_bucket_region,
+                  key: 'public/' + file.name
+              }
+          }
+          console.log(image)
+          addImageToDB(image);
+          console.log("added complete")
+      })
+  }
+
   const openModal = () => setOpen(true);
-  const closeModal = () => {
+  const closeDialog = () => {
     setOpen(false);
     window.location.reload();
   }
@@ -72,7 +109,7 @@ const Topbar = () => {
             <Logout onClick={signOut} align="right" />
         </Toolbar>
       </AppBar>
-      <Modal
+      {/* <Modal
         open={open}
         onClose={closeModal}
         aria-labelledby="modal-modal-title"
@@ -81,7 +118,22 @@ const Topbar = () => {
         <Box sx={style}>
             <UploadImage />
         </Box>
-      </Modal>      
+      </Modal>       */}
+        <Dialog aria-labelledby='dialog-title'
+            open={open}
+            onClose={ () => setOpen(false) }
+            aria-describedby='dialog-description'
+            >
+            <DialogTitle id='dialog-title'>File Upload</DialogTitle>
+            <DialogContent>
+                <p>Select an image to upload</p>
+                <input type="file" onChange={onChange} />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setOpen(false) }>Cancel</Button>
+                <Button autoFocus onClick={closeDialog}>Submit</Button>
+            </DialogActions>
+        </Dialog>
     </div>
     
   )

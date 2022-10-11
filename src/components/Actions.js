@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { Box, CircularProgress, Fab } from '@mui/material';
 import { Check, Save, Edit } from '@mui/icons-material';
 import { green } from '@mui/material/colors';
+import { Link } from 'react-router-dom';
 
 const Actions = ({ params, rowId, setRowId }) => {
   const [loading, setLoading] = useState(false)
@@ -33,9 +34,10 @@ const Actions = ({ params, rowId, setRowId }) => {
             height:40,
           }}
           disabled={params.id !== rowId || loading}
-          onClick={handleSubmit}
+          // onClick={handleSubmit}
           >
-            <Edit />
+            <Link to="/image/{rowId}"><Edit /></Link>
+
         </Fab>)}
     </Box>
     )
