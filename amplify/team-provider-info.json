@@ -16,5 +16,23 @@
         "imagegallery690a6292": {}
       }
     }
+  },
+  "imggalloc": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-imagegallery-imggalloc-163845-authRole",
+      "UnauthRoleArn": "arn:aws:iam::774419661475:role/amplify-imagegallery-imggalloc-163845-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::774419661475:role/amplify-imagegallery-imggalloc-163845-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-imagegallery-imggalloc-163845-deployment",
+      "UnauthRoleName": "amplify-imagegallery-imggalloc-163845-unauthRole",
+      "StackName": "amplify-imagegallery-imggalloc-163845",
+      "StackId": "arn:aws:cloudformation:us-east-1:774419661475:stack/amplify-imagegallery-imggalloc-163845/379d6500-4749-11ed-8094-0aa340c6a109",
+      "AmplifyAppId": "d3rvo33p69jx9e"
+    },
+    "categories": {
+      "auth": {
+        "imagegallery690a6292": {}
+      }
+    }
   }
 }

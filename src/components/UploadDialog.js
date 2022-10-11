@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import './UploadImage.css';
-
+import React from 'react'
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 import { createImage } from '../graphql/mutations';
 import awsmobile from "../aws-exports"
-import Topbar from '../components/Topbar'
+import { useState } from 'react';
 
-const UploadImage = (props) => {
-    const [fileUrl, setFileUrl] = useState(null)
+const UploadDialog = () => {
+    const [open, setOpen] = useState(false)
 
     async function addImageToDB (image) {
         console.log('add image to DB')
@@ -25,7 +24,7 @@ const UploadImage = (props) => {
         Storage.put(file.name, file, {
             contentType: file.type
         }).then (() => {
-            setFileUrl(URL.createObjectURL(file))
+            // setFileUrl(URL.createObjectURL(file))
             const image = {
                 name: file.name,
                 file: {
@@ -40,21 +39,26 @@ const UploadImage = (props) => {
         })
     }
 
-
     return (
-        <div className="UploadImage">
-            <Topbar />
-            <div>
+    <>
+        {/* <Dialog aria-labelledby='dialog-title'
+            open={open}
+            onClose={ () => setOpen(false) }
+            aria-label='dialog-title'
+            aria-describedby='dialog-description'
+            > */}
+            <DialogTitle id='dialog-title'>File Upload</DialogTitle>
+            <DialogContent>
                 <p>Select an image to upload</p>
                 <input type="file" onChange={onChange} />
-            </div>
-            <div>
-                <img src={fileUrl} alt=""/>
-            </div>
-        </div>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setOpen(false) }>Cancel</Button>
+                <Button autoFocus onClick={() => setOpen(false) }>Submit</Button>
+            </DialogActions>
+        {/* </Dialog> */}
+    </>
     )
-
-
 }
 
-export default UploadImage;
+export default UploadDialog

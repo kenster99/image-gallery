@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Topbar from '../components/Topbar'
-import { useEffect, useState } from 'react'
 import { API, graphqlOperation, Storage } from 'aws-amplify'
 import { listImages } from '../graphql/queries'
 import { Box } from '@mui/system';
@@ -8,23 +7,42 @@ import { DataGrid } from '@mui/x-data-grid';
 import { AmplifyS3Image } from '@aws-amplify/ui-react/legacy';
 import './Catalog.css';
 import Actions from '../components/Actions';
+import { onCreateImage } from '../graphql/subscriptions';
 
 const Catalog = () => {
     const [images, setImages] = useState([])
     const [rowId, setRowId] = useState(null)
+    const [image, setImage] = useState()
+
+    let subOnCreate;
 
     useEffect( () => {
         fetchData();      
-    },[]);
+    },[image]);
     
+    // useEffect( () => {
+    //     setupSubscriptions();
+    //     return () => {
+    //         subOnCreate.unsubscribe();
+    //     }
+    // })
+
+    // function setupSubscriptions() {
+    //     subOnCreate = API.graphql(graphqlOperation(onCreateImage)).subscribe({
+    //         next: (imagesData) => {
+    //             setImage(imagesData)
+    //         }
+    //     })
+    // }
+
     async function fetchData() {
         const apiData = await API.graphql(graphqlOperation(listImages));
         const imageData = apiData.data.listImages.items;
         setImages(imageData);
     };
  
-    console.log("== images == ")
-    console.log(images)   
+    // console.log("== images == ")
+    // console.log(images)   
     const columns = [
         { field: "url", headerName: "", sortable: false, filterable: false, 
             renderCell: (params) => {
@@ -56,8 +74,8 @@ const Catalog = () => {
         created: image.createdAt
     }))
 
-    console.log("== rows == ")
-    console.log(rows)  
+    // console.log("== rows == ")
+    // console.log(rows)  
   return (
     <>
     <Topbar />
